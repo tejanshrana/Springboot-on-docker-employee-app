@@ -1,5 +1,7 @@
 package com.my.experiments.springbootdockerpost.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,4 +79,11 @@ public class AppRestController {
 		return ResponseEntity.ok("User deleted");
 	}
 
+	@RequestMapping(value="/getAllUsers")
+	public List<User> getAllUsers()
+	{
+		
+		return userRepository.findAll();
+	}
+	
 }
