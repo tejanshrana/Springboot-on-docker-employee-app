@@ -1,5 +1,6 @@
 # ignore all . files and . folders
 .*
+target
 
 # Dont ignore .gitignore (this file)
 !/.gitignore

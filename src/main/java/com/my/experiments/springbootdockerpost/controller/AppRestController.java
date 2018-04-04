@@ -2,6 +2,7 @@ package com.my.experiments.springbootdockerpost.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.my.experiments.springbootdockerpost.domain.User;
 import com.my.experiments.springbootdockerpost.persistence.UserRepository;
 
@@ -74,16 +76,33 @@ public class AppRestController {
 					
 			return ResponseEntity.badRequest().body("No such User");
 		}
-		
-		
-		return ResponseEntity.ok("User deleted");
+		try {
+		userRepository.deleteById(Long.parseLong(id));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			ResponseEntity.badRequest();
+		}
+		return ResponseEntity.ok(new User(0,"",0,null));
 	}
 
+	@RequestMapping(value="/deleteUser", method=RequestMethod.OPTIONS)
+	public ResponseEntity<?> deleteUserOptions(@RequestParam(value="id") String id)
+	{
+		
+		return ResponseEntity.ok(new User(0,"",0,null));
+	}
+	
+	
 	@RequestMapping(value="/getAllUsers")
-	public List<User> getAllUsers()
+	public List<User> getAllUsers(HttpServletResponse response)
 	{
 		
 		return userRepository.findAll();
 	}
+	
+	
+	
 	
 }
